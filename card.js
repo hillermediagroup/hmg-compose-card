@@ -91,7 +91,7 @@ return JSON.stringify(out,null,2)}
 let resend=false;
 function lock(){f('card').classList.add('em-lock');f('body').contentEditable='false';f('subject').readOnly=true;f('sigOn').disabled=true;f('send').style.display='none';f('save').style.display='none';f('sentTxt').textContent='Sent '+now();f('again').textContent='Send again';f('sentNote').style.display='inline-flex'}
 function unlock(){f('card').classList.remove('em-lock');f('body').contentEditable='true';f('subject').readOnly=false;f('sigOn').disabled=false;f('send').style.display='';f('save').style.display='';f('sentNote').style.display='none';['to','cc','bcc'].forEach(renderChips)}
-f('send').onclick=()=>{const p=collect(resend?{resendConfirmed:true}:null);if(!p)return;sendPrompt('Send this exact email via send_message using these fields verbatim:\n\n'+p);resend=false;lock()};
+f('send').onclick=()=>{const p=collect(resend?{resendConfirmed:true}:null);if(!p)return;sendPrompt((CFG.replyThreadId?'Send this exact email as a threaded reply via reply using these fields verbatim:':'Send this exact email via send_message using these fields verbatim:')+'\n\n'+p);resend=false;lock()};
 f('again').onclick=()=>{if(f('again').dataset.arm){delete f('again').dataset.arm;resend=true;unlock();return}f('again').dataset.arm='1';f('again').textContent='Click again to unlock and resend';setTimeout(()=>{if(f('again').dataset.arm){delete f('again').dataset.arm;f('again').textContent='Send again'}},5000)};
 f('save').onclick=()=>{const p=collect();if(!p)return;sendPrompt('Save this exact email as a Gmail draft via create_draft using these fields verbatim:\n\n'+p);savedDraft=true;f('save').textContent='Saved '+now()+' · Update draft ↗'};
 let savedDraft=false;
